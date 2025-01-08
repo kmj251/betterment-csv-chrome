@@ -19,20 +19,34 @@ TransactionsToQif.convert = function(transactions) {
   // For each txn
   [].push.apply(lines, _.flatten(transactions.map(function(txn) {
     var action = txn.quantity >= 0 ? 'Buy' : 'Sell';
-
-    return [
-      "!Type:Invst",
-      "D" + txn.date.toLocaleDateString('en-US'),
-      "N" + action,
-      "Y" + txn.ticker,
-      "I" + txn.price,
-      // The direction is determined by the action, not the sign.
-      "Q" + Math.abs(txn.quantity),
-      "T" + Math.abs(txn.amount),
-      "P" + txn.description,
-      "O0.00",
-      "^"
-    ];
+    if (txn.description == 'Dividend Payment') {
+      action = 'Div'
+    }
+    if (action == 'Buy' || action == 'Sell') {
+      return [
+        "!Type:Invst",
+        "D" + txn.date.toLocaleDateString('en-US'),
+        "N" + action,
+        "Y" + txn.ticker,
+        "I" + txn.price,
+        // The direction is determined by the action, not the sign.
+        "Q" + Math.abs(txn.quantity),
+        "T" + Math.abs(txn.amount),
+        "P" + txn.description,
+        "O0.00",
+        "^"
+      ];
+    }
+    if (action == 'Div') {
+      return [
+        "!Type:Invst",
+        "D" + txn.date.toLocaleDateString('en-US'),
+        "N" + action,
+        "Y" + txn.ticker,
+        "T" + Math.abs(txn.amount),
+        "^"
+      ];
+    }
   })));
 
   return lines.join('\n');
