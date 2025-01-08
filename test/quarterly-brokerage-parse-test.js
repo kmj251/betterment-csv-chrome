@@ -96,7 +96,7 @@ describe('Betterment PDF Parsing', function() {
 			["Total","$1,333.22","-$1,333.22","$1,333.22"],
 			["Dividend Payment Detail"],
 			["Payment Date","Fund","Description","Amount"],
-			["Jun 26 2015","VTV","Vanguard Value ETF","$4.55"],
+			["Jun 26 2015","VTV","Vanguard Value ETF","$5.55"],
 			["Jul 2 2015","VWO","Vanguard FTSE Emerging Markets","$4.55"],
 			["Jul 2 2015","VEA","Vanguard FTSE Developed Markets","$77.55"],
 			["Jul 2 2015","VTI","Vanguard Total Stock Market ETF","$4.55"],

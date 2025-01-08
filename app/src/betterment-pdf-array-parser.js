@@ -126,6 +126,19 @@ function parse20161111Format(pdfArray) {
         currentDescription.push(line[0]);
       }
 
+      // Divident Payment line if len == 4 and has $xx.xx
+      if(line.length == 4 && line[0].match(/\$[\d.,]+\.\d{2}/)) {
+        lastDate = line[3]
+        transactions.push(createTransaction(
+          goal,
+          lastDate,
+          line[2], //ticker
+          ["Dividend Payment"], //description
+          line[0],
+          line[0]
+        ));
+      }
+
       // transaction line if len > 6 and has $xx.xx
       if(line.length >= 6 && line[0].match(/\$[\d.,]+\.\d{2}/)) {
         if(line.length == 8) {
@@ -151,6 +164,7 @@ function parse20161111Format(pdfArray) {
 
         currentDescription = [];
       }
+
     }
   });
 
@@ -164,7 +178,8 @@ function parse20161111Format(pdfArray) {
  */
 function isHeaderRow(line) {
   return arraysEqual(["Fund","Price","Shares","Value","Shares","Value"], line) ||
-      arraysEqual(["Value","Shares","Value"], line)
+      arraysEqual(["Value","Shares","Value"], line) ||
+      arraysEqual(["Payment Date","Fund","Description","Amount"], line)
 }
 
 
