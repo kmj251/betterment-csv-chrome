@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Betterment PDF to CSV exporter",
   "short_name": "Betterment PDF to CSV",
   "version": "@@version",
@@ -27,15 +27,15 @@
 
   "options_ui": {
     "page": "options.html",
-    "chrome_style": true
-  },  
+    "open_in_tab": true
+  },
 
- "background": {
-    "scripts": ["icon.js"],
-    "persistent": false
+  "background": {
+    "service_worker": "icon.js",
+    "type": "module"
   }, 
 
-  "page_action": {
+  "action": {
     "default_icon": {
       "38": "icon38.png"
     },
@@ -49,6 +49,9 @@
   ],
 
   "web_accessible_resources": [
-    "pdf.worker.js"
+    {
+      "resources": ["pdf.worker.js"],
+      "matches": ["<all_urls>"]
+    }
   ]
 }

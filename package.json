@@ -1,6 +1,6 @@
 {
   "name": "betterment-csv-chrome",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fcfort/betterment-csv-chrome.git"
@@ -43,7 +43,7 @@
     "mutation-summary": "0.1.1",
     "node-ensure": "0.0.0",
     "papaparse": "^5.2.0",
-    "pdfjs-dist": "1.8.188",
+    "pdfjs-dist": "^4.6.82",
     "requirejs": "^2.3.5",
     "underscore": "^1.8.3",
     "webpack": "^4.43.0"
