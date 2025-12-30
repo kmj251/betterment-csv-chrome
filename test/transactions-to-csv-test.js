@@ -1,8 +1,8 @@
-var should = require('should');
-var TransactionsToCsv = require('../app/src/transactions-to-csv');
+import { describe, it, expect } from 'vitest';
+import { convert } from '../app/src/transactions-to-csv.js';
 
-describe('Betterment Transaction to CSV converter', function() {
-  it('should convert a transaction to csv', function() {
+describe('Betterment Transaction to CSV converter', () => {
+  it('should convert a transaction to csv', () => {
     const transactions = [{
       account: 'A',
       date: new Date(2016, 1, 3),
@@ -20,7 +20,7 @@ describe('Betterment Transaction to CSV converter', function() {
         'A,2/3/2016,foo,BAR,1.00,2.45,43.03');
   });
 
-  it('should quote columns with commas', function() {
+  it('should quote columns with commas', () => {
     const transactions = [{
       account: 'A',
       date: new Date(2016, 1, 3),

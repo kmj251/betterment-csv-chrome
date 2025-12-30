@@ -1,8 +1,9 @@
-var assert = require('assert');
-var arrayParser = require('../app/src/betterment-pdf-array-parser');
+import { describe, it, expect } from 'vitest';
+import { BettermentPdfArrayParser } from '../app/src/betterment-pdf-array-parser.js';
 
-describe('Betterment PDF Parsing', function() {
-	describe('Quarterly Brokerage PDFs', function() {
+describe('Betterment PDF Parsing', () => {
+	describe('Quarterly Brokerage PDFs', () => {
+		const arrayParser = new BettermentPdfArrayParser();
 		var quarterlyPdf = [
 			[],
 			["Page ","1"," of ","10"],
@@ -475,11 +476,11 @@ describe('Betterment PDF Parsing', function() {
 			["Copies of statements and confirmations are available securely at bettermentsecurities.com."]
 		];
 
-		var parser = new arrayParser.BettermentPdfArrayParser();
-		var transactions = parser.parse(quarterlyPdf);
+		const parser = new BettermentPdfArrayParser();
+		const transactions = parser.parse(quarterlyPdf);
 
-		it('should return the right transactions', function () {
-			var expectedTransactions = [
+		it('should return the right transactions', () => {
+			const expectedTransactions = [
 				createTransaction("07/02/2015", "Dividend Reinvestment", "BNDX", "77.55", "4.55", "Safety Net Goal"),
 				createTransaction("07/06/2015", "Dividend Reinvestment", "LQD", "999.88", "4.55", "Safety Net Goal"),
 				createTransaction("07/06/2015", "Dividend Reinvestment", "BNDX", "77.55", "4.55", "Safety Net Goal"),
@@ -605,13 +606,13 @@ describe('Betterment PDF Parsing', function() {
 				createTransaction("09/30/2015", "Advisory Fee", "BNDX", "77.55", "-4.55", "Build Wealth Goal")
 			];
 
-			assert.deepEqual(transactions, expectedTransactions);
+			expect(transactions).toEqual(expectedTransactions);
 		});
 	});
 });
 
 function createTransaction(date, description, ticker, price, value, goal) {
-	quantity = (value / price).toFixed(6);
+	const quantity = (value / price).toFixed(6);
 	return  {
 		ticker: ticker,
 		price: price,

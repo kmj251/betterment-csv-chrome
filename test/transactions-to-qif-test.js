@@ -1,10 +1,9 @@
-var assert = require('assert');
-var should = require('should');
-var TransactionsToQif = require('../app/src/transactions-to-qif');
+import { describe, it, expect } from 'vitest';
+import { convert } from '../app/src/transactions-to-qif.js';
 
-describe('Betterment Transaction to QIF converter', function() {
-  it('should convert a transaction to qif', function() {
-    var transactions = [{
+describe('Betterment Transaction to QIF converter', () => {
+  it('should convert a transaction to qif', () => {
+    const transactions = [{
       account: "A",
       date: new Date(2016, 1, 3),
       description: "foo",
@@ -14,9 +13,9 @@ describe('Betterment Transaction to QIF converter', function() {
       amount: "43.03",
     }];
 
-    var qif = TransactionsToQif.convert(transactions);
+    const qif = convert(transactions);
 
-    qif.should.eql(
+    expect(qif).toBe(
       '!Account\n' +
       'NA\n' +
       'DA\n' +

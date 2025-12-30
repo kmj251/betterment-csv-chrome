@@ -1,9 +1,9 @@
-var assert = require('assert');
-var arrayParser = require('../app/src/betterment-pdf-array-parser');
+import { describe, it, expect } from 'vitest';
+import { BettermentPdfArrayParser } from '../app/src/betterment-pdf-array-parser.js';
 
-describe('Betterment PDF Parsing', function() {
-  describe('Should Parse 2016-11-11 format PDFs with short description', function() {
-    var quarterlyPdf =  [
+describe('Betterment PDF Parsing', () => {
+  describe('Should Parse 2016-11-11 format PDFs with short description', () => {
+    const quarterlyPdf =  [
         [],
         ["Page ","1"," of ","2"],
         ["Overview (Opened)"],
@@ -84,23 +84,23 @@ describe('Betterment PDF Parsing', function() {
         ["Copies of statements and confirmations are available securely at bettermentsecurities.com."],
     ];
 
-    var parser = new arrayParser.BettermentPdfArrayParser();
-    var transactions = parser.parse(quarterlyPdf);
+    const parser = new BettermentPdfArrayParser();
+    const transactions = parser.parse(quarterlyPdf);
 
-    it('should return the right transactions', function () {
-      var expectedTransactions = [
+    it('should return the right transactions', () => {
+      const expectedTransactions = [
         createTransaction("11/14/2016","Deposit from","VWOB","76.11","4.40", "Joint Build Wealth Goal"),
         createTransaction("11/14/2016","Deposit from","MUB","109.00","3.03", "Joint Build Wealth Goal"),
         createTransaction("11/14/2016","Deposit from","LQD","117.31","1.28", "Joint Build Wealth Goal"),
         createTransaction("11/14/2016","Deposit from","BNDX","54.31","1.29", "Joint Build Wealth Goal"),
       ];
 
-      assert.deepEqual(transactions, expectedTransactions);
+      expect(transactions).toEqual(expectedTransactions);
     });
   });
 
-  describe('Should Parse 2016-11-11 format PDFs with long description', function() {
-    var quarterlyPdf = [
+  describe('Should Parse 2016-11-11 format PDFs with long description', () => {
+    const quarterlyPdf = [
         [],
         ["Page ","1"," of ","2"],
         ["Overview (Opened)"],
@@ -194,11 +194,11 @@ describe('Betterment PDF Parsing', function() {
         ["Copies of statements and confirmations are available securely at bettermentsecurities.com."],
     ];
 
-    var parser = new arrayParser.BettermentPdfArrayParser();
-    var transactions = parser.parse(quarterlyPdf);
+    const parser = new BettermentPdfArrayParser();
+    const transactions = parser.parse(quarterlyPdf);
 
-    it('should return the right transactions', function () {
-      var expectedTransactions = [
+    it('should return the right transactions', () => {
+      const expectedTransactions = [
         createTransaction(
             "11/22/2016", "A really long goal name for a test  Test - Rebalance", "VTV","90.76","-11.52",
             "Joint Build Wealth Goal"),
@@ -216,13 +216,13 @@ describe('Betterment PDF Parsing', function() {
             "Joint Build Wealth Goal"),
       ];
 
-      assert.deepEqual(transactions, expectedTransactions);
+      expect(transactions).toEqual(expectedTransactions);
     });
  });
 });
 
 function createTransaction(date, description, ticker, price, value, goal) {
-  quantity = (value / price).toFixed(6);
+  const quantity = (value / price).toFixed(6);
   return  {
     ticker: ticker,
     price: price,

@@ -1,0 +1,160 @@
+LINE_NUMBER,TEXT_CONTENT
+2,ACCOUNT HOLDER
+3,Bob Jones
+4,Bob Jones@example.com
+5,123 Main St.
+6,"New York, NY 12345"
+7,Bob's Taxable Account
+8,IN THIS DOCUMENT
+9,Daily Activity Details
+10,MyAccount 5 - Automated Investing
+11,MyAccount 1 - Automated Investing
+12,MyAccount 2 - Automated Investing
+13,MyAccount 6 - Automated Investing
+14,MyAccount 4 - Automated Investing
+15,MyAccount 3 - Automated Investing
+16,Betterment
+17,Daily Activity Report
+18,01/31/2024
+19,1
+20,Account #123456789123451
+21,"Page   1   of   8 Betterment Securities, Broker-Dealer | 450 West 33rd Street, 11th Floor | New York, NY 10001 | (646) 600-8263"
+22,MyAccount 5 - Automated Investing
+23,TRADES
+24,2
+25,Ticker   Type   Price   Shares   Value
+26,GBIL   Buy   $100.25   0.258480   $25.91
+27,JPST   Buy   $50.80   0.408473   $20.73
+28,MUB   Buy   $107.05   0.336449   $36.00
+29,STIP   Buy   $102.25   0.159977   $16.38
+30,POSITION TRANSFERS
+31,3
+32,Ticker   Type   Price   Shares   Value
+33,No activity
+34,Account #1234567891232
+35,Page   2   of   8
+36,MyAccount 1 - Automated Investing
+37,TRADES
+38,2
+39,Ticker   Type   Price   Shares   Value
+40,GBIL   Buy   $100.20   0.044792   $4.49
+41,JPST   Buy   $50.95   0.085714   $4.35
+42,POSITION TRANSFERS
+43,3
+44,Ticker   Type   Price   Shares   Value
+45,No activity
+46,Account #8400172199378
+47,Page   3   of   8
+48,MyAccount 4 - Automated Investing
+49,TRADES
+50,2
+51,Ticker   Type   Price   Shares   Value
+52,GBIL   Buy   $100.20   0.068336   $6.85
+53,JPST   Buy   $50.25   0.129458   $6.57
+54,POSITION TRANSFERS
+55,3
+56,Ticker   Type   Price   Shares   Value
+57,No activity
+58,Account #1234567891233
+59,Page   6   of   8
+60,MyAccount 3 - Automated Investing
+61,TRADES
+62,2
+63,Ticker   Type   Price   Shares   Value
+64,GBIL   Buy   $100.00   0.058160   $5.83
+65,POSITION TRANSFERS
+66,3
+67,Ticker   Type   Price   Shares   Value
+68,No activity
+69,Account #123456789123451
+70,Page   7   of   8
+71,MyAccount 2 - Automated Investing
+72,TRADES
+73,2
+74,Ticker   Type   Price   Shares   Value
+75,AGG   Buy   $100.25   0.001698   $0.17
+76,BNDX   Buy   $48.25   0.004747   $0.23
+77,GBIL   Buy   $100.25   0.010674   $1.07
+78,JPST   Buy   $50.25   0.023645   $1.20
+79,MUB   Buy   $107.25   0.017196   $1.84
+80,SPMD   Buy   $59.25   0.001186   $0.07
+81,SPSM   Buy   $47.25   0.001462   $0.07
+82,SPYM   Buy   $81.25   0.000739   $0.06
+83,STIP   Buy   $102.25   0.005958   $0.61
+84,VWOB   Buy   $67.25   0.003548   $0.24
+85,POSITION TRANSFERS
+86,3
+87,Ticker   Type   Price   Shares   Value
+88,No activity
+89,Account #1234567891235
+90,Page   4   of   8
+91,MyAccount 6 - Automated Investing
+92,TRADES
+93,2
+94,Ticker   Type   Price   Shares   Value
+95,BNDX   Buy   $48.25   0.090609   $4.39
+96,MUB   Buy   $107.25   0.216729   $23.19
+97,SPMD   Buy   $59.25   0.329266   $19.43
+98,SPSM   Buy   $47.25   0.384294   $18.40
+99,SPYM   Buy   $81.25   1.109127   $90.05
+100,VEA   Buy   $62.25   1.192541   $74.82
+101,VWOB   Buy   $67.25   0.046422   $3.14
+102,POSITION TRANSFERS
+103,3
+104,Ticker   Type   Price   Shares   Value
+105,No activity
+106,Account #1234567891236
+107,Page   5   of   8
+108,THE FINE PRINT
+109,1
+110,"Unless otherwise noted, the settlement date is one market day after the transaction date."
+111,2
+112,Betterment Securities acted as an agent for you and bought or sold securities on your behalf.
+113,3
+114,"A “Position Transfer” is a transfer of securities from one goal to another, either within your legal account or between different legal accounts."
+115,"All amounts presented gross of withholding, if applicable. Closing Prices and cost basis as of 2025-12-26. Cost basis may be subject to change due to"
+116,"subsequent activity, such as wash sale events."
+117,Note: If this transaction included a sale of non-covered securities (purchased outside of Betterment and transferred into your account with incomplete lot
+118,"information), the purchase date with respect to those lots may be an estimate."
+119,"Please review this document carefully. If details of any transaction are incorrect, you must immediately notify Betterment Securities at"
+120,support@bettermentsecurities.com. Failure to make such notification within three (3) days of notification of this document constitutes your acceptance of
+121,the transactions.
+122,"Please take the opportunity to review the settings and restrictions, if any, on your account. This could include your portfolio allocation settings or your tax"
+123,loss harvesting settings (which you may want to review if you expect to be subject to a substantially lower tax rate) among others.
+124,"Please contact support@betterment.com, your investment advisor, if you wish to impose any reasonable restrictions on the management of your account or"
+125,reasonably modify existing restrictions or if you would like to speak with someone knowledgeable about the account.
+126,CUSTODY OF ASSETS: Betterment Securities and Apex Clearing Corporation (“Apex”) act as the custodian of assets in your Betterment Securities account.
+127,Apex also provides clearing services for Betterment Securities.
+128,"MARKETS: Securities are often traded on multiple markets, and we will exercise discretion as to the market or markets in which your order is executed."
+129,"AGGREGATION: Your securities orders may be aggregated with the orders of other clients for purposes of execution. If orders are aggregated, each client"
+130,receives the average price of the aggregate group order. Betterment Securities exclusively routes orders in Rule 606 reportable securities to its clearing
+131,"broker, Apex. Apex may not be the ultimate execution venue for such orders, and these orders may be further routed to execution venues. Apex shares with"
+132,Betterment Securities a portion of the payments or rebates that Apex receives on Betterment Securities’ orders. The most recent quarterly report from Apex
+133,for Rule 606 reportable securities is available at   www.betterment.com/legal/other-disclosures .
+134,REPRESENTATIONS: Descriptive words in the title of any security are used for identification purposes only and do not constitute representations.
+135,"EXECUTION: The time of execution, the name of the buyer or seller, and the commission charged to the other party if we acted as a dual agent, are available"
+136,upon written request.
+137,"FRACTIONAL SHARES: Your account holds fractional share interests in securities. Please note that fractional share amounts of certain securities, such as"
+138,"exchange-traded funds (""ETFs"") and stocks, are typically unrecognized and illiquid outside the Betterment platform. Fractional shares of securities might not"
+139,be marketable outside the Betterment platform or transferrable to another brokerage account.
+140,"REGULATIONS: These transactions are subject to the rules, regulations, and customs of the exchange or market on which they are made and to any and all"
+141,"applicable federal, state and/or foreign statutes or regulations."
+142,"GOVERNING LAW: The terms and conditions of this confirmation shall be governed by and construed in accordance with the laws of the state of New York,"
+143,without giving effect to the conflict of law provision thereof.
+144,"IRA CUSTODIAN: Inspira Financial Trust, LLC (formerly known as Millennium Trust Company, LLC), 2001 Spring Road, Suite 700, Oak Brook, IL 60523, is the"
+145,"custodian of IRA accounts. Inspira Financial Trust performs the duties of a directed custodian, and as such does not provide due diligence to third parties on"
+146,"prospective investments, platforms, sponsors or service providers and does not sell investments or provide investment, legal, or tax advice."
+147,"HSA CUSTODIAN: Optum Bank, P.O. Box 271629, Salt Lake City, UT 84127, is the custodian and the administrator of the HSA."
+148,"The products available through Betterment are investment products and as such: (i) are not insured by the Federal Deposit Insurance Corporation (""FDIC"");"
+149,"(ii) carry no bank or government guarantees, and are not a deposit or other obligation of, or guaranteed by, a bank; and (iii) have associated risks. Client"
+150,"understands that investments in securities are subject to investment risks, including possible loss of the principal amount invested. Your uninvested cash"
+151,balances are subject to the terms in the Cash Activity section of your statement.
+152,"If you believe there is an inaccuracy or discrepancy between this report and your account, you should immediately send written notification to Betterment"
+153,Securities Customer Experience at support@bettermentsecurities.com and retain a copy for your records. If you have any oral communications with
+154,"Betterment Securities or its affiliates regarding inaccuracies or discrepancies, such communications should be re-confirmed in writing."
+155,"Complaints about your Betterment Securities brokerage account may be directed to Betterment Securities at support@bettermentsecurities.com, via phone"
+156,"by calling 212-228-1328, or by mail at 450 West 33rd Street, 11th Floor, New York, NY 10001."
+157,"Brokerage services provided by Betterment Securities, an SEC-registered broker-dealer and member of FINRA and member of SIPC. Securities in your"
+158,"account protected up to $500,000. For details, please see   www.sipc.org ."
+159,Copies of statements and reports are available securely at   bettermentsecurities.com .
+160,Page   8   of   8

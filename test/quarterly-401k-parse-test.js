@@ -1,8 +1,9 @@
-var assert = require('assert');
-var arrayParser = require('../app/src/betterment-pdf-array-parser');
+import { describe, it, expect } from 'vitest';
+import { BettermentPdfArrayParser } from '../app/src/betterment-pdf-array-parser.js';
 
-describe('Betterment PDF Parsing', function() {
-  describe('Quarterly 401(k) PDFs', function() {
+describe('Betterment PDF Parsing', () => {
+  describe('Quarterly 401(k) PDFs', () => {
+    const arrayParser = new BettermentPdfArrayParser();
     var quarterlyPdf =  [
       [],
       ["Betterment"],
@@ -135,11 +136,11 @@ describe('Betterment PDF Parsing', function() {
       ["Fee Disclosure"],
     ];
 
-    var parser = new arrayParser.BettermentPdfArrayParser();
-    var transactions = parser.parse(quarterlyPdf);
+    const parser = new BettermentPdfArrayParser();
+    const transactions = parser.parse(quarterlyPdf);
 
-    it('should return the right transactions', function () {
-      var expectedTransactions = [
+    it('should return the right transactions', () => {
+      const expectedTransactions = [
         createTransaction("11/04/2015","10/30/2015 Payroll Contribution","VTI","333.66","333.66", "Traditional 401(k)"),
         createTransaction("11/04/2015","10/30/2015 Payroll Contribution","VEA","22.55","333.66", "Traditional 401(k)"),
         createTransaction("11/04/2015","10/30/2015 Payroll Contribution","VWO","22.55","333.66", "Traditional 401(k)"),
@@ -162,13 +163,13 @@ describe('Betterment PDF Parsing', function() {
         createTransaction("12/30/2015","Dividend","VEA","22.55","22.55", "Traditional 401(k)"),
       ];
 
-      assert.deepEqual(transactions, expectedTransactions);
+      expect(transactions).toEqual(expectedTransactions);
     });
   });
 });
 
 function createTransaction(date, description, ticker, price, value, goal) {
-  quantity = (value / price).toFixed(6);
+  const quantity = (value / price).toFixed(6);
   return  {
     ticker: ticker,
     price: price,

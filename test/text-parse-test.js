@@ -1,55 +1,62 @@
-var assert = require('assert');
-var should = require('should');
-var BettermentPdfArrayParser = require('../app/src/betterment-pdf-array-parser');
+import { describe, it, expect, beforeEach } from 'vitest';
+import { BettermentPdfArrayParser } from '../app/src/betterment-pdf-array-parser.js';
 
-describe('Betterment PDF Parsing', function() {
-	var pdfParser = new BettermentPdfArrayParser.BettermentPdfArrayParser();
+describe('Betterment PDF Parsing', () => {
+	let pdfParser;
 
-	describe('Date formats', function() {
-		it('should parse brokerage date formats', function() {
-			var transactions = pdfParser.parse([
+	beforeEach(() => {
+		pdfParser = new BettermentPdfArrayParser();
+	});
+
+	describe('Date formats', () => {
+		it('should parse brokerage date formats', () => {
+			const transactions = pdfParser.parse([
 				["Blah Goal"],
 				["Portfolio/Fund","Price","Shares","Value","Shares","Value"],
 				["Feb 3 2016","Blah","Stocks / VTI","$95.56","10.472","-$1,000.68","1.387","$1.23"],
 			]);
 
-			transactions[0].date.should.eql(new Date(2016, 1, 3));
+			expect(transactions[0].date).toEqual(new Date(2016, 1, 3));
 		});
 
-		it('should parse 401(k) date formats', function() {
-			var transactions = pdfParser.parse([
+		it('should parse 401(k) date formats', () => {
+			const transactions = pdfParser.parse([
 				["Blah Goal"],
 				["Portfolio/Fund","Price","Shares","Value","Shares","Value"],
 				["Nov 2nd, 2015","Blah","Stocks / MUB","$95.56","10.472","-$1,000.68","1.387","$1.23"],
 				["Dec 29th, 2015","Blah","Stocks / VTI","$95.56","10.472","-$1,000.68","1.387","$1.23"],
 			]);
 
-			transactions[0].date.should.eql(new Date(2015, 10, 2));
-			transactions[1].date.should.eql(new Date(2015, 11, 29));
+			expect(transactions[0].date).toEqual(new Date(2015, 10, 2));
+			expect(transactions[1].date).toEqual(new Date(2015, 11, 29));
 		});
 	});
 
-	describe('negative values', function() {
-		var testPdf = [
+	describe('negative values', () => {
+		const testPdf = [
 			["Traditional 401(k) Goal"],
 			["Portfolio/Fund","Price","Shares","Value","Shares","Value"],
 			["Feb 3 2016","1/29/2016 Payroll Contribution","Stocks / VTI","$95.56","10.472","-$1,000.68","1.387","$1.23"],
 		];
 
-		var transactions = pdfParser.parse(testPdf);
+		let transactions;
 
-		it('should parse negative amounts correctly', function() {
-			assert.equal(transactions.length, 1);
-			assert.equal(transactions[0].amount, "-1000.68");
+		beforeEach(() => {
+			transactions = pdfParser.parse(testPdf);
 		});
 
-		it('should return negative quantities with negative amounts', function() {
-			assert.equal(transactions[0].quantity, "-10.471746");
+		it('should parse negative amounts correctly', () => {
+			expect(transactions.length).toBe(1);
+			expect(transactions[0].amount).toBe("-1000.68");
+		});
+
+		it('should return negative quantities with negative amounts', () => {
+			expect(transactions[0].quantity).toBe("-10.471746");
 		});
 	});
 
-	describe('wire transfer', function() {
-		var wireTransferPdf = [
+	describe('wire transfer', () => {
+		const wireTransferPdf = [
 			[],
 			["Page ","1"," of ","2"],
 			["Overview"],
@@ -102,12 +109,16 @@ describe('Betterment PDF Parsing', function() {
 			["2"],
 			["Note: If this transaction included a sale of non-covered securities (purchased outside of Betterment and transferred into your account with incomplete lot"],
 			["information), the purchase date with respect to those lots may be an estimate."]
-		]
+		];
 
-		var transactions = pdfParser.parse(wireTransferPdf);
+		let transactions;
 
-		it('should return the right transactions', function () {
-			var expectedTransactions = [
+		beforeEach(() => {
+			transactions = pdfParser.parse(wireTransferPdf);
+		});
+
+		it('should return the right transactions', () => {
+			const expectedTransactions = [
 				// These quantity numbers don't match the above PDF since we're calculating them from
 				// price and amount.
 				{ticker: 'VTV', price: '82.18', amount: '1801.75', quantity: '21.924434'},
@@ -117,18 +128,18 @@ describe('Betterment PDF Parsing', function() {
 				{ticker: 'VEA', price: '37.50', amount: '11668.28', quantity: '311.154133'},
 				{ticker: 'VWO', price: '34.39', amount: '1172.08', quantity: '34.082001'},
 			];
-			expectedTransactions.forEach(function(tran) {
+			expectedTransactions.forEach((tran) => {
 				tran.account = 'Traditional 401(k) Goal';
 				tran.description = 'Wire for 401(k) Plan Conversion';
 				tran.date = new Date('Nov 17 2015');
 			});
-			assert.deepEqual(transactions, expectedTransactions);
+			expect(transactions).toEqual(expectedTransactions);
 		});
 
 	});
 
-	describe('401k confirmation', function() {
-		var four01kPdf = [
+	describe('401k confirmation', () => {
+		const four01kPdf = [
 			[],
 			["Page ","1"," of ","2"],
 			["Overview"],
@@ -176,10 +187,14 @@ describe('Betterment PDF Parsing', function() {
 			[" Unless otherwise noted, the settlement date is three market days after the transaction date. "],
 		];
 
-		var transactions = pdfParser.parse(four01kPdf);
+		let transactions;
 
-		it('should return the right transactions', function () {
-			var expectedTransactions = [
+		beforeEach(() => {
+			transactions = pdfParser.parse(four01kPdf);
+		});
+
+		it('should return the right transactions', () => {
+			const expectedTransactions = [
 				{ticker: 'VTI', price: '95.56', amount: '1000.68', quantity: '10.471746'},
 				{ticker: 'VTV', price: '75.25', amount: '956.45', quantity: '12.710299'},
 				{ticker: 'VOE', price: '77.84', amount: '305.00', quantity: '3.918294'},
@@ -187,18 +202,18 @@ describe('Betterment PDF Parsing', function() {
 				{ticker: 'VEA', price: '33.59', amount: '1907.01', quantity: '56.773147'},
 				{ticker: 'VWO', price: '29.64', amount: '515.48', quantity: '17.391363'},
 			];
-			expectedTransactions.forEach(function(tran) {
+			expectedTransactions.forEach((tran) => {
 				tran.account = 'Traditional 401(k) Goal';
 				tran.description = '1/29/2016 Payroll Contribution';
 				tran.date = new Date('Feb 3 2016');
 			});
-			assert.deepEqual(transactions, expectedTransactions);
+			expect(transactions).toEqual(expectedTransactions);
 		});
 
 	});
 
-	describe('transaction confirmation', function () {
-		var contributionPdf = [
+	describe('transaction confirmation', () => {
+		const contributionPdf = [
 			[],
 			["Page ","1"," of ","2"],
 			["Overview"],
@@ -299,67 +314,57 @@ describe('Betterment PDF Parsing', function() {
 			["Copies of statements and confirmations are available securely at bettermentsecurities.com."]
 		];
 
-		var transactions = pdfParser.parse(contributionPdf);
+		let transactions;
 
-		it('should return the right number of transactions', function () {
-			assert.equal(transactions.length, 10);
+		beforeEach(() => {
+			transactions = pdfParser.parse(contributionPdf);
 		});
 
- 		it('should return the right account name', function () {
- 			assert(transactions.every(function(tran) {
-				return "Build Wealth Goal" == tran.account;
- 			}));
+		it('should return the right number of transactions', () => {
+			expect(transactions.length).toBe(10);
 		});
 
- 		it('should return the right description', function () {
- 			transactions.forEach(function(tran) {
- 			 	assert.equal(tran.description, "Automatic Deposit");
+ 		it('should return the right account name', () => {
+ 			expect(transactions.every((tran) => tran.account === "Build Wealth Goal")).toBe(true);
+		});
+
+ 		it('should return the right description', () => {
+ 			transactions.forEach((tran) => {
+ 			 	expect(tran.description).toBe("Automatic Deposit");
 			});
 		});
 
- 		it('should return the right date', function () {
- 			var expectedDate = new Date(2016, 1, 19);
- 			transactions.forEach(function(tran) {
- 				assert.equal(tran.date.getTime(), expectedDate.getTime());
+ 		it('should return the right date', () => {
+ 			const expectedDate = new Date(2016, 1, 19);
+ 			transactions.forEach((tran) => {
+ 				expect(tran.date.getTime()).toBe(expectedDate.getTime());
 			});
 		});
 
-		it('should return the right tickers', function () {
-			var actualTickers = transactions.map(function(tran) {
-				return tran.ticker;
-			});
-			assert.deepEqual(
-				actualTickers,
+		it('should return the right tickers', () => {
+			const actualTickers = transactions.map((tran) => tran.ticker);
+			expect(actualTickers).toEqual(
 				["VEA", "VTI", "VTV", "VOE", "VBR", "VWO", "MUB", "LQD", "BNDX", "VWOB"]
 			);
 		});
 
-		it('should return the right prices', function () {
-			var actualPrices = transactions.map(function(tran) {
-				return tran.price;
-			});
-			assert.deepEqual(
-				actualPrices,
+		it('should return the right prices', () => {
+			const actualPrices = transactions.map((tran) => tran.price);
+			expect(actualPrices).toEqual(
 				["33.56", "96.96", "77.10", "79.37", "91.18", "30.65", "111.71", "113.87", "53.85", "74.06"]
 			);
 		});
 
-		it('should return the right amounts', function () {
-			var actualAmounts = transactions.map(function(tran) {
-				return tran.amount;
-			});
-			assert.deepEqual(
-				actualAmounts,
+		it('should return the right amounts', () => {
+			const actualAmounts = transactions.map((tran) => tran.amount);
+			expect(actualAmounts).toEqual(
 				["42.02", "16.11", "14.86", "4.48", "3.71", "5.84", "7.29", "0.85", "2.96", "1.88"]
 			);
 		});
 
-		it('should return the right quantities', function () {
-			var actualQuantities = transactions.map(function(tran) {
-				return tran.quantity;
-			});
-			assert.deepEqual(
-				actualQuantities,
+		it('should return the right quantities', () => {
+			const actualQuantities = transactions.map((tran) => tran.quantity);
+			expect(actualQuantities).toEqual(
 				["1.252086", "0.166151", "0.192737", "0.056445", "0.040689",
 				"0.190538", "0.065258", "0.007465", "0.054968", "0.025385"]
 			);

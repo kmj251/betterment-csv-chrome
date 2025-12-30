@@ -1,57 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "Betterment PDF to CSV exporter",
-  "short_name": "Betterment PDF to CSV",
-  "version": "@@version",
-  "description": "Easily download your ticker-level transactions from Betterment.com as CSV or QIF files.",
-  "author": "Frank Fort <frank.c.fort@gmail.com>",
-  "homepage_url": "https://github.com/fcfort/betterment-csv-chrome",
-  "minimum_chrome_version": "76.0.0.0",
-
-  "icons": {
-    "128": "icon128.png"
-  },
-
+  "name": "Betterment Transaction Exporter",
+  "short_name": "Betterment Exporter",
+  "version": "1.0.0",
+  "description": "Uses PDF.js for proper PDF text extraction and transaction parsing",
+  
   "content_scripts": [
     {
-      "run_at": "document_start",
-      "matches": ["https://wwws.betterment.com/app*"],
+      "matches": ["https://wwws.betterment.com/*"],
       "js": [
-        "load-pdf.js",
-        "pdf.worker.js",
-        "libs.js",
-        "main.js"
-      ]
+        "pdf.min.js",
+        "content-script.js"
+      ],
+      "run_at": "document_idle"
     }
   ],
-
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": true
-  },
-
-  "background": {
-    "service_worker": "icon.js",
-    "type": "module"
-  }, 
-
-  "action": {
-    "default_icon": {
-      "38": "icon38.png"
-    },
-    "default_title": "Betterment PDF to CSV exporter",
-    "default_popup": "options.html"
-  },
-
-  "permissions": [
-    "declarativeContent",
-    "storage"
-  ],
-
+  
   "web_accessible_resources": [
     {
       "resources": ["pdf.worker.js"],
-      "matches": ["<all_urls>"]
+      "matches": ["https://wwws.betterment.com/*"]
     }
   ]
 }

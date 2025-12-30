@@ -1,6 +1,7 @@
 {
   "name": "betterment-csv-chrome",
   "version": "1.0.0",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fcfort/betterment-csv-chrome.git"
@@ -9,42 +10,30 @@
   "bugs": {
     "url": "https://github.com/fcfort/betterment-csv-chrome/issues"
   },
+  "scripts": {
+    "build": "node build.js",
+    "dev": "npm run build",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint app/**/*.js",
+    "lint:fix": "eslint app/**/*.js --fix",
+    "clean": "rm -rf dist/"
+  },
   "devDependencies": {
-    "browserify": "^13.0.0",
-    "grunt": "^1.0.4",
-    "grunt-browserify": "^5.3.0",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-concat": "^1.0.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jasmine": "^2.2.0",
-    "grunt-contrib-uglify": "^2.3.0",
-    "grunt-crx": "^2.0.0",
-    "grunt-karma": "^4.0.2",
-    "grunt-mocha-test": "^0.13.3",
-    "grunt-newer": "^1.1.2",
-    "grunt-replace-regex": "^1.0.3",
-    "grunt-trimtrailingspaces": "^2.3.1",
-    "grunt-webstore-upload": "^0.9.24",
-    "is-wsl": "^2.2.0",
-    "jasmine-core": "^2.4.1",
-    "karma": "^6.4.4",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-jasmine": "^1.0.2",
-    "karma-requirejs": "^1.0.0",
-    "mocha": "^6.1.4",
-    "puppeteer": "^3.2.0",
-    "should": "^8.2.2",
-    "watchify": "^3.11.1"
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@types/chrome": "^0.0.268",
+    "@vitejs/plugin-legacy": "^5.4.2",
+    "eslint": "^9.16.0",
+    "happy-dom": "^15.11.6",
+    "puppeteer": "^23.9.0",
+    "terser": "^5.36.0",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "jquery": ">3.5.0",
-    "mutation-summary": "0.1.1",
-    "node-ensure": "0.0.0",
-    "papaparse": "^5.2.0",
-    "pdfjs-dist": "1.8.188",
-    "requirejs": "^2.3.5",
-    "underscore": "^1.8.3",
-    "webpack": "^4.43.0"
+    "papaparse": "^5.4.1",
+    "pdfjs-dist": "^4.8.69"
   }
 }
