@@ -13,11 +13,12 @@
   "scripts": {
     "build": "node build.js",
     "dev": "npm run build",
-    "test": "vitest",
+    "test": "vitest --run",
+    "test:legacy": "vitest --config vitest.legacy.config.js --run",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest --coverage",
-    "lint": "eslint app/**/*.js",
-    "lint:fix": "eslint app/**/*.js --fix",
+    "lint": "eslint app/content-script.js test/activity-parser-test.js",
+    "lint:fix": "eslint app/content-script.js test/activity-parser-test.js --fix",
     "clean": "rm -rf dist/"
   },
   "devDependencies": {

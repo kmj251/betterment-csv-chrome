@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { convert } from '../app/src/transactions-to-csv.js';
+import { convert } from '../../app/src/transactions-to-csv.js';
 
 describe('Betterment Transaction to CSV converter', () => {
   it('should convert a transaction to csv', () => {
@@ -13,9 +13,9 @@ describe('Betterment Transaction to CSV converter', () => {
       amount: '43.03',
     }];
 
-    const csv = TransactionsToCsv.convert(transactions);
+    const csv = convert(transactions);
 
-    csv.should.eql(
+    expect(csv).toBe(
         'Account,Date,Transaction,Portfolio/Fund,Price,Shares,Value\n' +
         'A,2/3/2016,foo,BAR,1.00,2.45,43.03');
   });
@@ -31,9 +31,9 @@ describe('Betterment Transaction to CSV converter', () => {
       amount: '3',
     }];
 
-    const csv = TransactionsToCsv.convert(transactions);
+    const csv = convert(transactions);
 
-    csv.should.eql(
+    expect(csv).toBe(
         'Account,Date,Transaction,Portfolio/Fund,Price,Shares,Value\n' +
         'A,2/3/2016,"foo, bar",_,1,2,3');
   });

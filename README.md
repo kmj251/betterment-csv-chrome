@@ -79,6 +79,9 @@ npm run dev
 # Run tests
 npm test
 
+# Run archived legacy parser/converter tests
+npm run test:legacy
+
 # Run tests in watch mode
 npm run test:watch
 
@@ -102,12 +105,22 @@ app/
 ├── content-script.js  # Main extension logic
 ├── manifest.json      # Chrome extension manifest
 ├── pdf.min.js         # PDF.js library
-└── pdf.worker.js      # PDF.js worker
+├── pdf.worker.js      # PDF.js worker
+└── src/               # Legacy parser/converter compatibility shims
 
-test/                  # Test files
+test/
+├── activity-parser-test.js  # Maintained test suite run by npm test
+└── legacy/                 # Archived legacy suites run by npm run test:legacy
+
 dist/app/             # Built extension (production)
 build.js              # Build script
 ```
+
+### Test Matrix
+
+- `npm test`: Supported modern suite for the current activity-page architecture.
+- `npm run test:legacy`: Archived legacy parser/converter suites with compatibility shims under `app/src`.
+- Legacy Karma specs are kept in `test/legacy/karma/` for reference and are not executed by Vitest.
 
 ### Debug Mode
 

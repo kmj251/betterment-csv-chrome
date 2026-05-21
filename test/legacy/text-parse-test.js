@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { BettermentPdfArrayParser } from '../app/src/betterment-pdf-array-parser.js';
+import { BettermentPdfArrayParser } from '../../app/src/betterment-pdf-array-parser.js';
 
 describe('Betterment PDF Parsing', () => {
 	let pdfParser;

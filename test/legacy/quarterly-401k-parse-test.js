@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { BettermentPdfArrayParser } from '../app/src/betterment-pdf-array-parser.js';
+import { BettermentPdfArrayParser } from '../../app/src/betterment-pdf-array-parser.js';
 
 describe('Betterment PDF Parsing', () => {
   describe('Quarterly 401(k) PDFs', () => {

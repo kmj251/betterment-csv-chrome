@@ -4,7 +4,7 @@ const DEBUG = true;
 // Debug logging wrapper
 function debugLog(...args) {
   if (DEBUG) {
-    debugLog(...args);
+    console.log('[Betterment Exporter]', ...args);
   }
 }
 
@@ -149,7 +149,7 @@ function parseBettermentTransactions(textArray) {
     
     // Look for account names (lines ending with "- Automated Investing" OR containing "Investing")
     if (lineText.endsWith('- Automated Investing')) {
-      let friendlyName = lineText.replace(/\s*-\s*Automated Investing$/, '').trim();
+      const friendlyName = lineText.replace(/\s*-\s*Automated Investing$/, '').trim();
       currentAccount = friendlyName;
       debugLog('🏦 Found automated investing account:', currentAccount);
       inTransactionSection = false;
@@ -287,99 +287,96 @@ async function loadAllActivities() {
 
 // Unified activity parsing - processes all activity rows sequentially
 function parseAllBettermentActivities() {
-  return new Promise(async (resolve) => {
+  return new Promise((resolve) => {
     debugLog('🎯 Starting unified activity parsing...');
-    
-    // First, load all activities
-    await loadAllActivities();
-    
-    const allTransactions = [];
-    
-    // Get all activity rows
-    const activityRows = Array.from(document.querySelectorAll('[data-testid="activity-row"]'));
-    debugLog(`🎯 Found ${activityRows.length} total activity rows to process`);
-    
-    let currentRowIndex = 0;
-    
-    function processNextRow() {
-      if (currentRowIndex >= activityRows.length) {
-        debugLog(`✅ All ${activityRows.length} activity rows processed. Total transactions: ${allTransactions.length}`);
-        resolve(allTransactions);
-        return;
-      }
+    loadAllActivities().then(() => {
+      const allTransactions = [];
       
-      const row = activityRows[currentRowIndex];
-      const rowText = row.textContent?.toLowerCase() || '';
+      // Get all activity rows
+      const activityRows = Array.from(document.querySelectorAll('[data-testid="activity-row"]'));
+      debugLog(`🎯 Found ${activityRows.length} total activity rows to process`);
       
-      debugLog(`\n🎯 ===== Processing row ${currentRowIndex + 1}/${activityRows.length} =====`);
-      debugLog(`🎯 Row preview: "${rowText.substring(0, 80)}..."`);
+      let currentRowIndex = 0;
       
-      // Determine activity type
-      let activityType = 'unknown';
-      if (rowText.includes('dividend payment')) {
-        activityType = 'dividend';
-      } else if (rowText.includes('trading activity')) {
-        activityType = 'trading';
-      } else if (rowText.includes('advisory fee')) {
-        activityType = 'advisory-fee';
-      } else {
-        debugLog(`⚠️ Unknown activity type, skipping row ${currentRowIndex + 1}`);
-        currentRowIndex++;
-        processNextRow();
-        return;
-      }
-      
-      debugLog(`🎯 Activity type: ${activityType}`);
-      
-      // Extract common data (date and account)
-      let activityDate = new Date();
-      let account = 'Investment Account';
-      
-      // Extract date
-      const dateSpans = row.querySelectorAll('span.bmt-textStyle_text100, span.bmt-textStyle_text50');
-      for (const span of dateSpans) {
-        const text = span.textContent?.trim() || '';
-        const dateMatch = text.match(/^([A-Z][a-z]{2})\s+(\d{1,2}),\s+(\d{4})$/);
+      function processNextRow() {
+        if (currentRowIndex >= activityRows.length) {
+          debugLog(`✅ All ${activityRows.length} activity rows processed. Total transactions: ${allTransactions.length}`);
+          resolve(allTransactions);
+          return;
+        }
         
-        if (dateMatch) {
-          const monthMap = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
-          const month = monthMap[dateMatch[1]];
-          const day = parseInt(dateMatch[2]);
-          const year = parseInt(dateMatch[3]);
-          activityDate = new Date(year, month, day);
-          debugLog(`📅 Extracted date: ${text} → ${activityDate.toDateString()}`);
-          break;
+        const row = activityRows[currentRowIndex];
+        const rowText = row.textContent?.toLowerCase() || '';
+        
+        debugLog(`\n🎯 ===== Processing row ${currentRowIndex + 1}/${activityRows.length} =====`);
+        debugLog(`🎯 Row preview: "${rowText.substring(0, 80)}..."`);
+        
+        // Determine activity type
+        let activityType = 'unknown';
+        if (rowText.includes('dividend payment')) {
+          activityType = 'dividend';
+        } else if (rowText.includes('trading activity')) {
+          activityType = 'trading';
+        } else if (rowText.includes('advisory fee')) {
+          activityType = 'advisory-fee';
+        } else {
+          debugLog(`⚠️ Unknown activity type, skipping row ${currentRowIndex + 1}`);
+          currentRowIndex++;
+          processNextRow();
+          return;
+        }
+        
+        debugLog(`🎯 Activity type: ${activityType}`);
+        
+        // Extract common data (date and account)
+        let activityDate = new Date();
+        let account = 'Investment Account';
+        
+        // Extract date
+        const dateSpans = row.querySelectorAll('span.bmt-textStyle_text100, span.bmt-textStyle_text50');
+        for (const span of dateSpans) {
+          const text = span.textContent?.trim() || '';
+          const dateMatch = text.match(/^([A-Z][a-z]{2})\s+(\d{1,2}),\s+(\d{4})$/);
+          
+          if (dateMatch) {
+            const monthMap = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+            const month = monthMap[dateMatch[1]];
+            const day = parseInt(dateMatch[2]);
+            const year = parseInt(dateMatch[3]);
+            activityDate = new Date(year, month, day);
+            debugLog(`📅 Extracted date: ${text} → ${activityDate.toDateString()}`);
+            break;
+          }
+        }
+        
+        // Extract account
+        const goalDiv = row.querySelector('.bmt-grid-area_goal');
+        if (goalDiv) {
+          const accountSpan = goalDiv.querySelector('span.bmt-textStyle_text100');
+          if (accountSpan) {
+            account = accountSpan.textContent?.trim() || 'Investment Account';
+            debugLog(`🏦 Extracted account: "${account}"`);
+          }
+        }
+        
+        // Expand the row
+        debugLog(`🎯 Expanding row ${currentRowIndex + 1}...`);
+        const clickEvent = new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true
+        });
+        row.dispatchEvent(clickEvent);
+        
+        // Wait for expansion and parse based on type
+        if (activityType === 'dividend') {
+          waitForDividendExpansion(activityDate, account);
+        } else if (activityType === 'trading') {
+          waitForTradingExpansion(activityDate, account);
+        } else if (activityType === 'advisory-fee') {
+          waitForAdvisoryFeeExpansion(activityDate, account);
         }
       }
-      
-      // Extract account
-      const goalDiv = row.querySelector('.bmt-grid-area_goal');
-      if (goalDiv) {
-        const accountSpan = goalDiv.querySelector('span.bmt-textStyle_text100');
-        if (accountSpan) {
-          account = accountSpan.textContent?.trim() || 'Investment Account';
-          debugLog(`🏦 Extracted account: "${account}"`);
-        }
-      }
-      
-      // Expand the row
-      debugLog(`🎯 Expanding row ${currentRowIndex + 1}...`);
-      const clickEvent = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      });
-      row.dispatchEvent(clickEvent);
-      
-      // Wait for expansion and parse based on type
-      if (activityType === 'dividend') {
-        waitForDividendExpansion(activityDate, account);
-      } else if (activityType === 'trading') {
-        waitForTradingExpansion(activityDate, account);
-      } else if (activityType === 'advisory-fee') {
-        waitForAdvisoryFeeExpansion(activityDate, account);
-      }
-    }
     
     function waitForDividendExpansion(date, account) {
       const detailDivs = document.querySelectorAll('div[data-samba-component="true"].bmt-d_flex.bmt-flex-d_row.bmt-jc_space-between');
@@ -387,7 +384,7 @@ function parseAllBettermentActivities() {
       if (detailDivs.length > 1) {
         debugLog(`💰 Dividend expansion complete! Found ${detailDivs.length} detail divs`);
         
-        detailDivs.forEach((div, idx) => {
+        detailDivs.forEach((div) => {
           const spans = div.querySelectorAll('span');
           if (spans.length >= 2) {
             const tickerText = spans[0].textContent?.trim() || '';
@@ -630,42 +627,10 @@ function parseAllBettermentActivities() {
       }
     }
     
-    // Start processing
-    processNextRow();
+      // Start processing
+      processNextRow();
+    });
   });
-}
-
-// Helper function to load all activities by clicking "Load more" button repeatedly (DEPRECATED - kept for compatibility)
-async function loadAllActivitiesOld() {
-  debugLog('📋 Loading all activities...');
-  let clickCount = 0;
-  const maxClicks = 100; // Safety limit
-  
-  while (clickCount < maxClicks) {
-    // Look for the "Load more" button
-    const buttons = Array.from(document.querySelectorAll('button[data-samba-component="true"]'));
-    const loadMoreButton = buttons.find(btn => btn.textContent?.trim() === 'Load more');
-    
-    if (loadMoreButton && loadMoreButton.offsetParent !== null) { // Check if visible
-      debugLog(`📋 Clicking "Load more" button (click ${clickCount + 1})...`);
-      loadMoreButton.click();
-      clickCount++;
-      
-      // Wait for new content to load
-      await new Promise(resolve => setTimeout(resolve, 500));
-    } else {
-      debugLog(`📋 No more "Load more" button found. Total clicks: ${clickCount}`);
-      break;
-    }
-  }
-  
-  if (clickCount >= maxClicks) {
-    debugLog(`⚠️ Reached maximum "Load more" clicks (${maxClicks}). Proceeding with available activities.`);
-  }
-  
-  // Wait a bit more for final content to settle
-  await new Promise(resolve => setTimeout(resolve, 500));
-  debugLog('✅ All activities loaded');
 }
 
 // NOTE: Old parsing functions removed - now using unified parseAllBettermentActivities() instead
@@ -674,10 +639,6 @@ async function loadAllActivitiesOld() {
 // Check if current page is activity page vs PDF page  
 function isActivityPage() {
   return window.location.pathname === '/app/activity';
-}
-
-function isPdfPage() {
-  return document.querySelector('canvas[data-page-number]') !== null;
 }
 
 // Add download functionality to activity pages

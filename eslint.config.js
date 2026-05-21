@@ -1,45 +1,43 @@
 import js from '@eslint/js';
 
 export default [
+  {
+    ignores: ['dist/**', 'app/pdf.min.js', 'app/pdf.worker.js']
+  },
   js.configs.recommended,
   {
-    files: ["app/src/**/*.js"],
+    files: ['app/content-script.js'],
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: "module",
+      sourceType: 'module',
       globals: {
-        chrome: "readonly",
-        PDFJS: "writable",
-        console: "readonly",
-        document: "readonly",
-        window: "readonly",
-        URL: "readonly",
-        Blob: "readonly",
-        FileReader: "readonly",
-        setTimeout: "readonly",
-        clearTimeout: "readonly"
+        Blob: 'readonly',
+        MouseEvent: 'readonly',
+        URL: 'readonly',
+        chrome: 'readonly',
+        clearTimeout: 'readonly',
+        console: 'readonly',
+        document: 'readonly',
+        location: 'readonly',
+        setInterval: 'readonly',
+        setTimeout: 'readonly',
+        window: 'readonly'
       }
     },
     rules: {
-      "no-var": "error",
-      "prefer-const": "error",
-      "prefer-arrow-callback": "error",
-      "arrow-spacing": "error",
-      "no-unused-vars": "warn",
-      "semi": ["error", "always"],
-      "quotes": ["error", "single"],
-      "indent": ["error", 2]
+      'no-unused-vars': 'warn',
+      'prefer-const': 'error'
     }
   },
   {
-    files: ["test/**/*.js"],
+    files: ['test/**/*.js'],
     languageOptions: {
       globals: {
-        describe: "readonly",
-        it: "readonly",
-        expect: "readonly",
-        beforeEach: "readonly",
-        afterEach: "readonly"
+        afterEach: 'readonly',
+        beforeEach: 'readonly',
+        describe: 'readonly',
+        expect: 'readonly',
+        it: 'readonly'
       }
     }
   }

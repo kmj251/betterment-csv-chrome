@@ -1,4 +1,4 @@
-import { BettermentPdfArrayParser } from '../app/src/betterment-pdf-array-parser.js';
+import { BettermentPdfArrayParser } from '../../app/src/betterment-pdf-array-parser.js';
 import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('BettermentPdfArrayParser - Real Data Tests', () => {

@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   test: {
-    include: ['test/**/*-test.js', 'test/**/*.{test,spec}.js'],
+    include: ['test/activity-parser-test.js'],
     environment: 'happy-dom',
     globals: true,
     setupFiles: ['./test/setup.js'],

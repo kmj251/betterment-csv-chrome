@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { convert } from '../app/src/transactions-to-qif.js';
+import { convert } from '../../app/src/transactions-to-qif.js';
 
 describe('Betterment Transaction to QIF converter', () => {
   it('should convert a transaction to qif', () => {
